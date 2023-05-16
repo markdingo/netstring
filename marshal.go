@@ -35,7 +35,7 @@ import (
 // struct to Unmarshal in to. Having to know the type before seeing the payload is a
 // fundamental issue for all go Unmarshal functions such as json.Unmarshal in that they
 // have to know ahead of time what type of struct the message contains; thus the message
-// type has to effectively preceed the message. At least with netstrings that's easy to
+// type has to effectively precede the message. At least with netstrings that's easy to
 // arrange.
 //
 // Type and tag checking is performed while encoding so any error return probably leaves
@@ -62,7 +62,7 @@ import (
 //
 //	fmt.Println(bbuf.String()) // "3:Mr0,3:a22,12:cNew Zealand,3:tnz,3:C64,4:nBob,1:Z,"
 //
-// Particularly note the preceeding message type "r0" and the trailing end-of-message
+// Particularly note the preceding message type "r0" and the trailing end-of-message
 // sentinel 'Z'.
 func (enc *Encoder) Marshal(eom Key, message any) error {
 	k, e := eom.Assess()
