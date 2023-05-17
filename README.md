@@ -88,22 +88,16 @@ Note the change of order as well as the missing 'a' netstring?
 
 ## Installation
 
-`netstring` is available using the standard `go get` command or it should automatically be
-installed by `go tidy` or `go build` if your project uses go modules.
+When imported by your program, `github.com/markdingo/netstring` should automatically
+install with `go mod tidy`.
 
-Install with:
-
-```
- go get github.com/markdingo/netstring
-```
-
-and run tests with:
+Once installed, you can run the package tests with:
 
 ```
  go test github.com/markdingo/netstring
 ```
 
-and of course once installed, package documentation is available via:
+as well as display the package documentation with:
 
 ```
  go doc github.com/markdingo/netstring
