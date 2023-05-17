@@ -7,17 +7,13 @@ import (
 // MaximumLength defines the maximum length of a value in a netstring.
 //
 // The original specification doesn't actually define a maximum length so this somewhat
-// arbitrary value is defined mostly a safety margin for CPUs for which the go compiler
+// arbitrary value is defined mostly as a safety margin for CPUs for which the go compiler
 // defines int as int32.
 //
 // Having said that, the original specification *does* include a code fragment which
-// suggests the same limit so it seems like a good place to start. This limit is slight
+// suggests the same limit so it seems like a good place to start. This limit is slighty
 // less than 2^30, so safe for any int32/uint32 storage.
 const MaximumLength = 999999999
-
-// NoKey is the special "key" provided to the Encoder.Encode*() functions to indicate that
-// a standard netstring should be encoded.
-const NoKey Key = 0
 
 const (
 	leadingColon  byte = ':'

@@ -7,6 +7,10 @@ package netstring
 // Decoder functions. Use Key.Assess() to determine the validity and type of a key.
 type Key byte
 
+// NoKey is the special "key" provided to the Encoder.Encode*() functions to indicate that
+// a standard netstring should be encoded.
+const NoKey Key = 0
+
 func (k Key) String() string {
 	return string(k)
 }
