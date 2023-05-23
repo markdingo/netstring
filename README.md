@@ -70,12 +70,12 @@ Here is what that series of netstrings looks like:
 
     "4:Name,3:Age,7:Country,6:Height,"
 
-If any of these values are optional, you'd still have to provide an empty netstring to
-ensure positional order is maintained which creates the ambiguity as to whether an empty
-netstring is a value or a place-holder.
+If any of these values are optional, you'd still have to provide a zero length netstring
+to maintain positional order; however this creates the ambiguity as to whether the intent
+is to convey a zero length string or a NULL.
 
-With "keyed" netstrings the values can be presented in any order and optional values are
-simply omitted.
+With "keyed" netstrings the values can be presented in any order and optional or NULL
+values are simply omitted.
 In the above example if we assign the "key" of 'n' to Name, 'a' to Age, 'c' to Country and
 'h' to Height the series of "keyed" netstrings looks like:
 

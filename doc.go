@@ -115,6 +115,10 @@ if Country is optional.
 Note how "keyed" netstrings no longer need to be serialized in order, nor do they need to
 be present if optional as compared to positional netstrings.
 
+Another minor benefit of "keyed" netstrings is the ability to differentiate between zero
+length values and NULL. If the "keyed" netstring is present it implies a value; if the
+"keyed" netstring is absent it implies a NULL.
+
 "Keyed" netstrings thus allow greater flexibility in message assembly and disassembly as
 well as much easier upgrades of messages without having to necessarily synchronize
 transmitters and receivers.
