@@ -61,30 +61,32 @@ The benefit of "keyed" netstrings is that they create a simple self-describing t
 which allows applications to encode multiple netstrings in a message without having to
 rely on positional order or nested netstrings to convey semantics or encapsulate a message.
 
-To demonstrate the benefits of "keyed" netstrings, say you want to encode Name, Age and
-Country as netstrings to be transmitted to a remote service? With standard netstrings
-you'd have to agree on the positional order for each value, say netstring #0 for Name, #1
-for Age and so on.
+To demonstrate the benefits of "keyed" netstrings, say you want to encode Name, Age,
+Country and Height as netstrings to be transmitted to a remote service? With standard
+netstrings you'd have to agree on the positional order for each value, say netstring #0
+for Name, #1 for Age and so on.
+
 Here is what that series of netstrings looks like:
 
-    "4:Name,3:Age,7:Country,"
+    "4:Name,3:Age,7:Country,6:Height,"
 
 If any of these values are optional, you'd still have to provide an empty netstring to
-ensure positional order is maintained which creates the dilemma as to whether an empty
+ensure positional order is maintained which creates the ambiguity as to whether an empty
 netstring is a value or a place-holder.
 
 With "keyed" netstrings the values can be presented in any order and optional values are
 simply omitted.
-In the above example if we assign the "key" of 'f' to First Name, 'l' to Last Name, 'a' to
-Age and 'h' to Height the series of "keyed" netstrings looks like:
+In the above example if we assign the "key" of 'n' to Name, 'a' to Age, 'c' to Country and
+'h' to Height the series of "keyed" netstrings looks like:
 
-    "11:fFirst Name,10:lLast Name,4:aAge,7:hHeight,"
+    "5:nName,4:aAge,8:cCountry,7:hHeight,"
 
-But if Age is optional the series of netstrings simply becomes:
+and if Age is optional the series of netstrings simply becomes:
 
-    "7:hHeight,11:fFirst Name,10:lLast Name,"
+    "8:cCountry,7:hHeight,5:nName,"
 
 Note the change of order as well as the missing 'a' netstring?
+All perfectly acceptable with "keyed" netstrings.
 
 ## Installation
 
@@ -110,8 +112,8 @@ import "github.com/markdingo/netstring"
 ```
 
 To create a message of netstrings, call NewEncoder() then call the various Encode*()
-functions to encode the basic go types. This code fragment encodes a message into a
-bytes.Buffer.
+functions to encode the basic go types.
+This code fragment encodes a message into a bytes.Buffer.
 
 ```
  var buf bytes.Buffer
@@ -162,7 +164,8 @@ Full working programs can be found in the _examples directory.
 
 If you have any problems using `netstring` or suggestions on how it can do a better job,
 don't hesitate to create an [issue](https://github.com/markdingo/netstring/issues) on the
-project home page. This package can only improve with your feedback.
+project home page.
+This package can only improve with your feedback.
 
 ### Copyright and License
 
