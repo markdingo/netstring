@@ -89,6 +89,12 @@ and if Age is optional the series of netstrings simply becomes:
 Note the change of order as well as the missing 'a' netstring?
 All perfectly acceptable with "keyed" netstrings.
 
+To gain the most benefit from "keyed" netstrings, the usual strategy is to reserve a
+specific key value as an "end-of-message" sentinal which naturally is the last netstring
+in the message.
+The convention is to use 'z' as the "end-of-message" sentinal as demonstrated in the
+examples.
+
 ## Installation
 
 When imported by your program, `github.com/markdingo/netstring` should automatically
@@ -106,7 +112,7 @@ as well as display the package documentation with:
  go doc github.com/markdingo/netstring
 ```
 
-## Usage
+## Usage and Examples
 
 ``` go
 import "github.com/markdingo/netstring"
