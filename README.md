@@ -14,7 +14,7 @@ A netstring.Encoder writes go types as encoded netstrings to a supplied io.Write
 has helper functions to encode basic go types such as bool, ints, floats, strings and
 bytes to netstrings. Structs, maps and other complex data structures are not supported.
 A netstring.Decoder accepts a byte-stream via its io.Reader and presents successfully
-parsed netstrings via the Decode.Decode() and Decoder.DecodeKeyed() functions.
+parsed netstrings via the Decoder.Decode() and Decoder.DecodeKeyed() functions.
 
 Alternatively applications can use the message level Encoder.Marshal() and
 Decoder.Unmarshal() functions to encode and decode a simple struct containing "keyed"
