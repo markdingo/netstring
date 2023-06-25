@@ -1,5 +1,5 @@
 <!-- Always newline after period so diffs are easier to read. -->
-# netstring - Robust encoding and decoding of netstrings across network connections
+# netstring - Robust encoding and decoding of netstrings
 
 ## Introduction
 
@@ -7,13 +7,14 @@ The `netstring` package is a go implementation of
 [netstring](https://cr.yp.to/proto/netstrings.txt) serialization as originally specified
 by D. J. Bernstein [djb](https://cr.yp.to/cv.html).
 
-`netstring` provides an Encoder and a Decoder.
+`netstring` provides an Encoder and a Decoder which are particularly suited to exchanging
+netstrings across reliable transports such as TCP, WebSockets, D-Bus and the like.
 
 A netstring.Encoder writes go types as encoded netstrings to a supplied io.Writer. Encoder
 has helper functions to encode basic go types such as bool, ints, floats, strings and
-bytes to netstrings. Structs, maps and other complex data structures are not supported. A
-netstring.Decoder accepts a byte-stream via its io.Reader and presents successfully parsed
-netstrings via the Decode.Decode() and Decoder.DecodeKeyed() functions.
+bytes to netstrings. Structs, maps and other complex data structures are not supported.
+A netstring.Decoder accepts a byte-stream via its io.Reader and presents successfully
+parsed netstrings via the Decode.Decode() and Decoder.DecodeKeyed() functions.
 
 Alternatively applications can use the message level Encoder.Marshal() and
 Decoder.Unmarshal() functions to encode and decode a simple struct containing "keyed"
@@ -21,8 +22,8 @@ netstrings with an end-of-message sentinel.
 
 The overall goal of this package is to make it easy to attach netstring Encoders and
 Decoders to network connections or other reliable transports so that applications can
-exchange messages with either the lower level Encode*()/Decode*() functions or the higher
-level Marshal() and Unmarshal() functions.
+exchange messages with either the lower level Encode*() and Decode*() functions or the
+higher level Marshal() and Unmarshal() functions.
 
 ### Project Status
 
@@ -54,8 +55,8 @@ E.g. the function Encoder.EncodeInt() converts int(2^16) to the netstring:
 ## "Keyed" netstrings
 
 In addition to standard netstrings, this package supports "keyed" netstrings which are
-nothing more than netstrings where the first byte signifies a "type" which describes the
-value in some useful way to the application.
+nothing more than netstrings where the first byte of [value] signifies a "type" which
+describes the rest of [value] in some useful way to the application.
 
 The benefit of "keyed" netstrings is that they create a simple self-describing typing system
 which allows applications to encode multiple netstrings in a message without having to
