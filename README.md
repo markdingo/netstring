@@ -75,7 +75,7 @@ If any of these values are optional, you'd still have to provide a zero length n
 to maintain positional order; however this creates the ambiguity as to whether the intent
 is to convey a zero length string or a NULL.
 
-With "keyed" netstrings the values can be presented in any order and optional or NULL
+With "keyed" netstrings the values can be presented in any order and optional (or NULL)
 values are simply omitted.
 In the above example if we assign the "key" of 'n' to Name, 'a' to Age, 'c' to Country and
 'h' to Height the series of "keyed" netstrings looks like:
@@ -92,8 +92,8 @@ All perfectly acceptable with "keyed" netstrings.
 To gain the most benefit from "keyed" netstrings, the usual strategy is to reserve a
 specific key value as an "end-of-message" sentinal which naturally is the last netstring
 in the message.
-The convention is to use 'z' as the "end-of-message" sentinal as demonstrated in the
-examples.
+The convention is to use 'z' as the "end-of-message" sentinal as demonstrated in
+subsequent examples.
 
 ## Installation
 
