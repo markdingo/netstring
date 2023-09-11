@@ -36,31 +36,32 @@ func (t parseState) String() string {
 
 /*
 Decoder provides a netstring decode capability. A Decoder *must* be constructed with
-NewDecoder() otherwise subsequent calls will panic.
+[NewDecoder] otherwise subsequent calls will panic.
 
-The byte-stream from the io.Reader provided to NewDecoder() is expected to contain a pure
-stream of netstrings. Each netstring can be retrieved via Decode() and DecodeKeyed() for
-standard netstrings and "keyed" netstrings respectively. The sending and receiving
+The byte-stream from the [io.Reader] provided to [NewDecoder] is expected to contain a
+pure stream of netstrings. Each netstring can be retrieved via [Decode] and [DecodeKeyed]
+for standard netstrings and "keyed" netstrings respectively. The sending and receiving
 applications must agree on all aspects of how these netstrings are interpreted. Typically
 they will agree on a message structure which is either a fixed number of standard
 netstrings or a variable number of "keyed" netstrings terminated by an end-of-message
 sentinel.
 
-The functions Decode() and DecodeKeyed() are used to accessed each decoded netstring as it
-becomes available and Unmarshal() is used to decoded a complete "message" containing a
-series of "keyed" netstrings (including an end-of-message sentinel) into a simple struct.
+[Decode] and [DecodeKeyed] are used to accessed each decoded netstring as it becomes
+available and [Unmarshal] is used to decoded a complete "message" containing a series of
+"keyed" netstrings (including an end-of-message sentinel) into a simple struct.
 
-It is often good practice to wrap the input io.Reader in a bufio.Reader as this will
-likely improve parsing performance of this package.
+It is often good practice to wrap the input [io.Reader] in a [bufio.Reader] as this can
+improve parsing performance.
 
 If the Decoder detects a malformed netstring, it stops parsing, returns an error and
 effective stops all future parsing for that byte stream because once synchronization is
 lost, it can never be recovered.
 
-Decoder passes thru io.EOF from the io.Reader, but only after all bytes have been consumed
-in the process of producing netstrings. An application should anticipate io.EOF if the
-io.Reader constitutes a network connection of some type. Unlike io.Reader, the EOF error
-is *not* returned in the same call which returns a valid netstring or message.
+Decoder passes [io.EOF] back to the caller from the [io.Reader], but only after all bytes
+have been consumed in the process of producing netstrings. An application should
+anticipate [io.EOF] if the [io.Reader] constitutes a network connection of some
+type. Unlike [io.Reader], the EOF error is *not* returned in the same call which returns a
+valid netstring or message.
 */
 type Decoder struct {
 	rdr     io.Reader
@@ -187,7 +188,7 @@ func (dec *Decoder) parse() (good []byte) {
 // Once an invalid netstring is detected, the byte stream is considered permanently
 // unrecoverable and the same error is returned in perpetuity.
 //
-// The DecodeKeyed() function is better suited if the application is using "keyed"
+// The [DecodeKeyed] function is better suited if the application is using "keyed"
 // netstrings.
 func (dec *Decoder) Decode() (ns []byte, err error) {
 	ns = dec.parse()
