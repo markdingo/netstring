@@ -142,7 +142,7 @@ And this fragment decodes the same message.
  k, v, e = dec.DecodeKeyed()  // k=z End-Of-Message
 ```
 
-The message can more easily be encoded with Marshal() as this fragment shows:
+The message can more conveniently encoded with Marshal() as this fragment shows:
 
 ```
  type record struct {
@@ -157,7 +157,7 @@ var buf bytes.Buffer
  enc.Marshal('z', out)
 ```
 
-and more easily decoded with Unmarshal() as this fragment shows:
+and more conveniently decoded with Unmarshal() as this fragment shows:
 
 ```
  dec := netstring.NewDecoder(&buf)
