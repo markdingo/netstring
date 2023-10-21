@@ -1,5 +1,5 @@
 all:
-	@echo Make targets are 'fmt' and 'tests'
+	@echo Make targets are 'benckmarks', 'fmt', 'tests'
 
 .PHONY: fmt
 fmt:
