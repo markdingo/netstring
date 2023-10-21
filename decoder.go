@@ -207,8 +207,8 @@ func (dec *Decoder) Decode() (ns []byte, err error) {
 // the application.
 //
 // DecodeKeyed returns the next available netstring, if any, along with the prefix
-// "key". The returned value does *not* include the prefix "key". If no more netstrings
-// are available, error is returned with io.EOF.
+// "key". The returned []byte value does *not* include the prefix "key". If no more
+// netstrings are available, error is returned with io.EOF.
 //
 // Once an invalid netstring is detected, the byte stream is considered permanently
 // unrecoverable and the same error is returned in perpetuity.

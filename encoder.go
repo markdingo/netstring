@@ -54,7 +54,7 @@ func NewEncoder(output io.Writer) *Encoder {
 // encoded.
 //
 // EncodeBytes is the recommended function to create an end-of-message sentinel for
-// "keyed" netstring. If, e.g., a "key" if 'z' is the sentinel, then:
+// "keyed" netstring. If, e.g., a "key" of 'z' is the sentinel, then:
 //
 //	EncodeBytes('z')
 //
