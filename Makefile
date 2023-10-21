@@ -9,3 +9,8 @@ fmt:
 test tests:
 	go test ./...
 	go vet ./...
+
+.PHONY: benchmark benchmarks
+benchmark benchmarks:
+#	-benchtime 3s
+	go test -benchmem -bench Bench
