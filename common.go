@@ -11,7 +11,7 @@ import (
 // defines int as int32.
 //
 // Having said that, the original specification *does* include a code fragment which
-// suggests the same limit so it seems like a good place to start. This limit is slighty
+// suggests the same limit so it seems like a good place to start. This limit is slightly
 // less than 2^30, so safe for any int32/uint32 storage.
 const MaximumLength = 999999999
 
