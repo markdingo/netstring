@@ -17,10 +17,9 @@ import (
 // netstring.NoKey. When the "eom" netstring is seen, the message is considered fully
 // populated, the "eom" message is discarded and control is returned to the caller.
 //
-// If "message" is not a "basic-struct" or pointer to a "basic-struct" an error is
-// returned.  Only exported fields with "netstring" tags are considered for incoming
-// "keyed" netstrings. If "message" contains duplicate "netstring" tag values an error is
-// returned.
+// If "message" is not a pointer to a "basic-struct" an error is returned. Only exported
+// fields with "netstring" tags are considered for incoming "keyed" netstrings. If
+// "message" contains duplicate "netstring" tag values an error is returned.
 //
 // The "unknown" variable is set with the key of any incoming "keyed" netstring which has
 // no corresponding field in "message". Obviously only one "unknown" is visible to the
@@ -100,8 +99,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 			continue
 		}
 		if len(tag) != 1 {
-			err = fmt.Errorf("%s%s tag '%s' (0x%X) is not a single character",
-				errorPrefix, sf.Name, tag, tag)
+			err = fmt.Errorf(errorPrefix+"%s tag '%s' (0x%X) is not a single character",
+				sf.Name, tag, tag)
 			return
 		}
 		key := Key(tag[0])
@@ -111,13 +110,13 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 			return
 		}
 		if !keyed {
-			err = fmt.Errorf("%s%s tag '%s' (0x%X) is not a valid netstring.Key",
-				errorPrefix, sf.Name, tag, tag)
+			err = fmt.Errorf(errorPrefix+"%s tag '%s' (0x%X) is not a valid netstring.Key",
+				sf.Name, tag, tag)
 			return
 		}
 		if f, ok := keyToField[key]; ok {
-			err = fmt.Errorf("%sDuplicate tag '%s' for '%s' and '%s'",
-				errorPrefix, tag, sf.Name, f.name)
+			err = fmt.Errorf(errorPrefix+"Duplicate tag '%s' for '%s' and '%s'",
+				tag, sf.Name, f.name)
 			return
 		}
 
@@ -134,14 +133,14 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 		case reflect.Slice: // Is it a byte slice?
 			eKind := sf.Type.Elem().Kind()
 			if eKind != reflect.Uint8 {
-				err = fmt.Errorf("%s%s type unsupported (%s of %s)",
-					errorPrefix, sf.Name, kind, eKind)
+				err = fmt.Errorf(errorPrefix+"%s type unsupported (%s of %s)",
+					sf.Name, kind, eKind)
 				return
 			}
 
 		default:
-			err = fmt.Errorf("%s%s type unsupported (%s)",
-				errorPrefix, sf.Name, kind)
+			err = fmt.Errorf(errorPrefix+"%s type unsupported (%s)",
+				sf.Name, kind)
 			return
 		}
 
@@ -169,8 +168,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 		}
 
 		if field.seen {
-			err = fmt.Errorf("%sDuplicate key '%s' in decode stream for %s",
-				errorPrefix, k.String(), field.name)
+			err = fmt.Errorf(errorPrefix+"Duplicate key '%s' in decode stream for %s",
+				k.String(), field.name)
 			return
 		}
 		field.seen = true
@@ -179,8 +178,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			vi, e := strconv.ParseInt(string(v), 10, 64)
 			if e != nil || field.value.OverflowInt(vi) {
-				err = fmt.Errorf("%sCannot convert '%s' to int for %s (%s)",
-					errorPrefix, string(v), field.name, field.kind)
+				err = fmt.Errorf(errorPrefix+"Cannot convert '%s' to int for %s (%s)",
+					string(v), field.name, field.kind)
 				return
 			}
 			field.value.SetInt(vi)
@@ -188,8 +187,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 			vi, e := strconv.ParseUint(string(v), 10, 64)
 			if e != nil || field.value.OverflowUint(vi) {
-				err = fmt.Errorf("%sCannot convert '%s' to uint for %s - overflows %s",
-					errorPrefix, string(v), field.name, field.kind)
+				err = fmt.Errorf(errorPrefix+"Cannot convert '%s' to uint for %s - overflows %s",
+					string(v), field.name, field.kind)
 				return
 			}
 			field.value.SetUint(vi)
@@ -197,8 +196,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 		case reflect.Float32, reflect.Float64:
 			vf, e := strconv.ParseFloat(string(v), 64)
 			if e != nil || field.value.OverflowFloat(vf) {
-				err = fmt.Errorf("%sCannot convert '%s' to float for %s - overflows %s",
-					errorPrefix, string(v), field.name, field.kind)
+				err = fmt.Errorf(errorPrefix+"Cannot convert '%s' to float for %s - overflows %s",
+					string(v), field.name, field.kind)
 				return
 			}
 			field.value.SetFloat(vf)
@@ -210,8 +209,8 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 			field.value.SetBytes(v)
 
 		default:
-			err = fmt.Errorf("%s%s Internal Error type (%s) ducked early check",
-				errorPrefix, field.name, kind)
+			err = fmt.Errorf(errorPrefix+"%s Internal Error type (%s) ducked early check",
+				field.name, kind)
 		}
 	}
 }

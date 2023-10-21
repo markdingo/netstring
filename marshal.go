@@ -103,8 +103,8 @@ func (enc *Encoder) Marshal(eom Key, message any) error {
 			continue
 		}
 		if len(tag) != 1 {
-			return fmt.Errorf("%s%s tag '%s' (0x%X) is not a valid netstring.Key",
-				errorPrefix, sf.Name, tag, tag)
+			return fmt.Errorf(errorPrefix+"%s tag '%s' (0x%X) is not a valid netstring.Key",
+				sf.Name, tag, tag)
 		}
 		key := Key(tag[0])
 		keyed, err := key.Assess()
@@ -112,12 +112,12 @@ func (enc *Encoder) Marshal(eom Key, message any) error {
 			return err
 		}
 		if !keyed {
-			return fmt.Errorf("%s%s tag '%s' (0x%X) is not a valid netstring.Key",
-				errorPrefix, sf.Name, tag, tag)
+			return fmt.Errorf(errorPrefix+"%s tag '%s' (0x%X) is not a valid netstring.Key",
+				sf.Name, tag, tag)
 		}
 		if n, ok := dupes[key]; ok {
-			return fmt.Errorf("%sDuplicate tag '%s' for '%s' and '%s'",
-				errorPrefix, tag, sf.Name, n)
+			return fmt.Errorf(errorPrefix+"Duplicate tag '%s' for '%s' and '%s'",
+				tag, sf.Name, n)
 		}
 		dupes[key] = sf.Name
 
@@ -137,13 +137,12 @@ func (enc *Encoder) Marshal(eom Key, message any) error {
 			if eKind == reflect.Uint8 {
 				enc.EncodeBytes(key, vf.Bytes())
 			} else {
-				return fmt.Errorf("%s%s type unsupported (%s of %s)",
-					errorPrefix, sf.Name, kind, eKind)
+				return fmt.Errorf(errorPrefix+"%s type unsupported (%s of %s)",
+					sf.Name, kind, eKind)
 			}
 
 		default:
-			return fmt.Errorf("%s%s type unsupported (%s)",
-				errorPrefix, sf.Name, kind)
+			return fmt.Errorf(errorPrefix+"%s type unsupported (%s)", sf.Name, kind)
 		}
 	}
 
