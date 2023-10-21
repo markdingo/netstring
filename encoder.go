@@ -35,7 +35,8 @@ Almost all error returns will be errors from the underlying io.Writer which tend
 a Write() to a network socket failed.
 */
 type Encoder struct {
-	out io.Writer
+	formatBuffer [40]byte // Easily fits MaximumLength bytes (and 2^64 as well)
+	out          io.Writer
 }
 
 // NewEncoder constructs a netstring encoder. An Encoder *must* be constructed with
@@ -75,8 +76,10 @@ func (enc *Encoder) EncodeBytes(key Key, val ...[]byte) error {
 		return ErrValueToLong
 	}
 
-	// Write the decimal length of the value
-	_, err = enc.out.Write([]byte(strconv.FormatInt(int64(l), 10)))
+	// Write the decimal length of the value (via formatBuffer for performance reasons)
+	ls := enc.formatBuffer[0:0:len(enc.formatBuffer)]
+	ls = strconv.AppendUint(ls, l, 10)
+	_, err = enc.out.Write(ls)
 	if err != nil {
 		return fmt.Errorf(errorPrefix+"Encoder write length failed: %w", err)
 	}
@@ -89,7 +92,9 @@ func (enc *Encoder) EncodeBytes(key Key, val ...[]byte) error {
 
 	// Write key if its "keyed"
 	if keyed {
-		_, err = enc.out.Write([]byte{byte(key)})
+		// Write key (via formatBuffer to avoid allocation)
+		enc.formatBuffer[0] = byte(key)
+		_, err = enc.out.Write(enc.formatBuffer[0:1])
 		if err != nil {
 			return fmt.Errorf(errorPrefix+"Encoder write key failed: %w", err)
 		}
