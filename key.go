@@ -19,7 +19,8 @@ func (k Key) String() string {
 // or "keyed" netstring. NoKey.Assess() returns keyed=false and err=nil which is to say
 // that Assess treats NoKey as valid but it signifies a standard netstring.
 //
-// "keyed" is set true if 'k' is in the range 'a'-'z' or 'A'-'Z', inclusive.
+// Assess returnes keyed=true and err=nil if 'k' is in the range 'a'-'z' or 'A'-'Z'
+// inclusive which is to say that it matches the isalpha() C90 library function.
 func (k Key) Assess() (keyed bool, err error) {
 	if k == NoKey {
 		return false, nil
