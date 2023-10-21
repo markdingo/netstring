@@ -17,8 +17,8 @@ A netstring.Decoder accepts a byte-stream via its io.Reader and presents success
 parsed netstrings via the Decoder.Decode() and Decoder.DecodeKeyed() functions.
 
 Alternatively applications can use the message level Encoder.Marshal() and
-Decoder.Unmarshal() functions to encode and decode a basic struct containing "keyed"
-netstrings with an end-of-message sentinel.
+Decoder.Unmarshal() convenience functions to encode and decode a basic struct containing
+"keyed" netstrings with an end-of-message sentinel.
 
 The overall goal of this package is to make it easy to attach netstring Encoders and
 Decoders to network connections or other reliable transports so that applications can
@@ -142,7 +142,7 @@ And this fragment decodes the same message.
  k, v, e = dec.DecodeKeyed()  // k=z End-Of-Message
 ```
 
-The message can more conveniently encoded with Marshal() as this fragment shows:
+The message is more conveniently encoded with Marshal() as this fragment shows:
 
 ```
  type record struct {
