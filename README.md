@@ -17,7 +17,7 @@ A netstring.Decoder accepts a byte-stream via its io.Reader and presents success
 parsed netstrings via the Decoder.Decode() and Decoder.DecodeKeyed() functions.
 
 Alternatively applications can use the message level Encoder.Marshal() and
-Decoder.Unmarshal() functions to encode and decode a simple struct containing "keyed"
+Decoder.Unmarshal() functions to encode and decode a basic struct containing "keyed"
 netstrings with an end-of-message sentinel.
 
 The overall goal of this package is to make it easy to attach netstring Encoders and
@@ -35,7 +35,7 @@ higher level Marshal() and Unmarshal() functions.
 
 ## Background
 
-A netstring is a simple serialization technique where each value is expressed in the form
+A netstring is a serialization technique where each value is expressed in the form
 [length] ":" [value] "," where [value] is the payload, [length] is the length of [value]
 in decimal bytes and the colon and comma are leading and trailing delimiters respectively.
 An example of the value "The Hitchhiker's Guide to the Galaxy - D.A." encoded as a
@@ -58,7 +58,7 @@ In addition to standard netstrings, this package supports "keyed" netstrings whi
 nothing more than netstrings where the first byte of [value] signifies a "type" which
 describes the rest of [value] in some useful way to the application.
 
-The benefit of "keyed" netstrings is that they create a simple self-describing typing system
+The benefit of "keyed" netstrings is that they create a self-describing typing system
 which allows applications to encode multiple netstrings in a message without having to
 rely on positional order or nested netstrings to convey semantics or encapsulate a message.
 

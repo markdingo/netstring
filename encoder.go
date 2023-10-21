@@ -9,7 +9,7 @@ import (
 /*
 Encoder provides Encode*() functions to encode basic go types as netstrings and write them
 to the io.Writer. Encode also provides Marshal() which assembles a complete message from a
-simple struct as a series of netstrings. An Encoder *must* be constructed with
+"basic-struct" as a series of netstrings. An Encoder *must* be constructed with
 NewEncoder() otherwise subsequent calls will panic.
 
 The first parameter to every Encode*() function is a Key type called "key" which can be
@@ -201,9 +201,9 @@ func (enc *Encoder) EncodeByte(key Key, val byte) error {
 	return enc.EncodeBytes(key, []byte{val})
 }
 
-// Encode is the type-generic function which encodes most simple go types. Encode() uses
-// go type-casting of val.(type) to determine the type-specific encoder to call. "key"
-// must pass Key.Assess() otherwise an error is returned.
+// Encode is the type-generic function which encodes most basic go types. Encode() uses go
+// type-casting of val.(type) to determine the type-specific encoder to call. "key" must
+// pass Key.Assess() otherwise an error is returned.
 //
 // Be wary of encoding a rune (a single quoted unicode character) with Encode() as the go
 // compiler arranges for a rune to be passed in as an int32 and will thus be encoded as a

@@ -40,7 +40,7 @@ func TestMarshal(t *testing.T) {
 	type structD struct {
 		Ad int32    `netstring:"A"`
 		Bd int64    `netstring:"B"`
-		Cd []string `netstring:"C"` // Not a simple struct
+		Cd []string `netstring:"C"` // Not a "basic-struct"
 		Dd uint64   `netstring:"D"`
 		Ed float32  `netstring:"E"`
 	}
@@ -48,7 +48,7 @@ func TestMarshal(t *testing.T) {
 	type structE struct {
 		A int32       `netstring:"A"`
 		B int64       `netstring:"B"`
-		C map[int]int `netstring:"C"` // Not a simple struct
+		C map[int]int `netstring:"C"` // Not a "basic-struct"
 		D uint64      `netstring:"D"`
 		E float32     `netstring:"E"`
 	}

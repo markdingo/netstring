@@ -51,11 +51,11 @@ func TestUnmarshal(t *testing.T) {
 	}
 
 	type structI struct {
-		AI [10]int `netstring:"I"` // Not simple
+		AI [10]int `netstring:"I"` // Not a basic type
 	}
 
 	type structJ struct {
-		AJ []int `netstring:"I"` // Not simple
+		AJ []int `netstring:"I"` // Not a basic type
 	}
 
 	type structK struct {

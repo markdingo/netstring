@@ -2,11 +2,11 @@
 Package netstring provides robust encoding and decoding of netstrings to and from byte
 streams.
 
-netstrings are a simple serialization technique originally defined by
-http://cr.yp.to/netstrings.txt. Typical usage is to exchange messages consisting of a
-small number of well-defined netstrings. Complex messages with many variables and changing
-semantics are better suited to more sophisticated encoding schemes such as encoding/json
-or Protobufs.
+netstrings are a straightforward serialization technique originally defined by
+http://cr.yp.to/proto/netstrings.txt. Typical usage is to exchange messages consisting of
+a small number of well-defined netstrings. Complex messages with many variables and
+changing semantics are better suited to more sophisticated encoding schemes such as
+encoding/json or Protobufs.
 
 Netstrings are of the form: [length] ":" [value] "," where [value] is the payload of
 interest, [length] is the length of [value] in decimal bytes and the colon and comma are
@@ -32,7 +32,7 @@ and applications are encouraged to use the corresponding strconv.Parse*() functi
 decode non-string values back to internal binary. The specifics of each to non-string
 conversion are documented in each helper function.
 
-Apart from simple struct support with Marshal() and Unmarshal() there is no support for
+Apart from "basic-struct" support with Marshal() and Unmarshal() there is no support for
 encoding complex go types such as nest structs, arrays, slices and maps as this is the
 juncture at which the application might best be served using a more sophisticated encoding
 scheme as mentioned earlier.
@@ -51,8 +51,8 @@ reliably.
 
 # Assembling Messages
 
-Typical usage of netstrings is to assemble a simple message consisting of a small number
-of netstrings. E.g., if an application wants to transmit Age, Country and Name it could be
+Typical usage of netstrings is to assemble a message consisting of a small number of
+netstrings. E.g., if an application wants to transmit Age, Country and Name it could be
 encoded as these three netstrings:
 
 	"2:21,7:Iceland,5:Bjorn,"
@@ -83,9 +83,9 @@ facilitates associating a "key" with each netstring. For example a "key" might d
 the application should decode the netstring or it might associate a netstring with an
 particular field in a struct. Or it might mean something else entirely!
 
-A "keyed" netstring is a simple convention which is nothing more than a regular netstring
-with the first byte being used as the "key" and subsequent bytes representing the
-value. For example, the netstring:
+A "keyed" netstring is a convention which is nothing more than a regular netstring with
+the first byte being used as the "key" and subsequent bytes representing the value. For
+example, the netstring:
 
 	"4:dDog,"
 
@@ -131,9 +131,9 @@ free to re-use the same "key" in the same message if it makes sense to do so. No
 of flexibility does not apply to the higher level Marshal() and Unmarshal() functions.
 
 Encoder.Marshal and Decoder.Unmarshal are purposely designed with "keyed" netstrings in
-mind as they encode and decode a simple struct into a message with "keyed"
+mind as they encode and decode a "basic-struct" into a message with "keyed"
 netstrings. There are various rules around how netstring keys are used and what
-constitutes a simple struct.
+constitutes a "basic-struct".
 
 # End of Message Strategies
 
@@ -196,12 +196,12 @@ And this example decodes the same message.
 	k, v, e = dec.DecodeKeyed()        // k=z End-Of-Message
 
 A complete implementation of this example is in _examples/compare.go which encodes a
-simple message with "keyed" netstrings then decodes the message to ensure that the
-reconstructed values match the originals.
+message with "keyed" netstrings then decodes the message to ensure that the reconstructed
+values match the originals.
 
 The higher level functions Marshal() and Unmarshal() can be used to exchange complete
 messages. These function used "keyed" netstrings with an end-of-message sentinel to
-package up a complete message from a simple struct.
+package up a complete message from a "basic-struct".
 
 This example encodes the same message as above using Encoder.Marshal().
 

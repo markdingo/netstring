@@ -233,5 +233,4 @@ func TestDecodeKeyedWithNil(t *testing.T) {
 	if e != io.EOF {
 		t.Error("Expected EOF from empty parse but got", k, v, e)
 	}
-
 }

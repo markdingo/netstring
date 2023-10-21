@@ -5,17 +5,21 @@ import (
 	"reflect"
 )
 
-// Marshal takes "message" as a simple struct or a pointer to a simple struct and encodes
-// all exported fields with a "netstring" tag as a series of "keyed" netstrings. If there
-// is no "netstring" tag the field is ignored. The reason the "netstring" tag is required
-// is to supply a netstring key value which assists Unmarshal in locating the appropriate
-// field on the receiving side. Marshal cannot be used to encode standard netstrings.
+// Marshal takes "message" as a struct or a pointer to a struct and encodes all exported
+// fields with a "netstring" tag as a series of "keyed" netstrings. The complexity of
+// "message" struct is significantly constrained to such an extent that it is henceforth
+// called a "basic-struct".
+//
+// If there is no "netstring" tag the field is ignored. The reason the "netstring" tag is
+// required is to supply a netstring key value which assists Unmarshal in locating the
+// appropriate field on the receiving side. Marshal cannot be used to encode standard
+// netstrings.
 //
 // The "eom" parameter is used to create an end-of-message sentinel "keyed" netstring. It
-// can be any valid Key excepting netstring.NoKey. The sentinel follows the simple struct
+// can be any valid Key excepting netstring.NoKey. The sentinel follows the "basic-struct"
 // netstrings with Encoder.EncodeBytes(eom).
 //
-// There are significant constraints as to what constitutes a valid simple struct. In
+// There are significant constraints as to what constitutes a valid "basic-struct". In
 // large part this is because netstrings are ill-suited to support complex messages - use
 // encoding/json or protobufs for those. Candidate fields (i.e. exported with a
 // "netstring" tag) can only be one of the following basic go types: all ints and uints,

@@ -48,7 +48,7 @@ sentinel.
 
 [Decode] and [DecodeKeyed] are used to accessed each decoded netstring as it becomes
 available and [Unmarshal] is used to decoded a complete "message" containing a series of
-"keyed" netstrings (including an end-of-message sentinel) into a simple struct.
+"keyed" netstrings (including an end-of-message sentinel) into a "basic-struct".
 
 It is often good practice to wrap the input [io.Reader] in a [bufio.Reader] as this can
 improve parsing performance.
@@ -202,9 +202,9 @@ func (dec *Decoder) Decode() (ns []byte, err error) {
 }
 
 // DecodeKeyed is used when the stream contains "keyed" netstrings created by the
-// Encoder. A "keyed" netstring is simply a netstring where the first byte is a "key" used
-// to categorize the rest of the value. What that categorization means is entirely up to
-// the application.
+// Encoder. A "keyed" netstring is a netstring where the first byte is a "key" used to
+// categorize the rest of the value. What that categorization means is entirely up to the
+// application.
 //
 // DecodeKeyed returns the next available netstring, if any, along with the prefix
 // "key". The returned []byte value does *not* include the prefix "key". If no more

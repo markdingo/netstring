@@ -7,7 +7,7 @@ import (
 )
 
 // Unmarshal takes incoming "keyed" netstrings and populates "message". Message must be a
-// pointer to a simple struct with the same restrictions as discussed in Marshal.
+// pointer to a "basic-struct" with the same restrictions as discussed in Marshal.
 //
 // Each netstring is read via Decoder.DecodeKeyed() until a "keyed" netstring matches
 // "eom". Each netstring is decoded into the field with a "netstring" tag matching the
@@ -17,9 +17,9 @@ import (
 // netstring.NoKey. When the "eom" netstring is seen, the message is considered fully
 // populated, the "eom" message is discarded and control is returned to the caller.
 //
-// If "message" is not a simple struct or pointer to a simple struct an error is returned.
-// Only exported fields with "netstring" tags are considered for incoming "keyed"
-// netstrings. If "message" contains duplicate "netstring" tag values an error is
+// If "message" is not a "basic-struct" or pointer to a "basic-struct" an error is
+// returned.  Only exported fields with "netstring" tags are considered for incoming
+// "keyed" netstrings. If "message" contains duplicate "netstring" tag values an error is
 // returned.
 //
 // The "unknown" variable is set with the key of any incoming "keyed" netstring which has
@@ -149,7 +149,7 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 	}
 
 	// Have all the information about message destination fields so start consuming
-	// keyed netstrings and map them into the simple struct destination fields.
+	// keyed netstrings and map them into the "basic-struct" destination fields.
 
 	for {
 		k, v, e := dec.DecodeKeyed()
