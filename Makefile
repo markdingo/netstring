@@ -12,5 +12,4 @@ test tests:
 
 .PHONY: benchmark benchmarks
 benchmark benchmarks:
-#	-benchtime 3s
 	go test -benchmem -bench Bench
