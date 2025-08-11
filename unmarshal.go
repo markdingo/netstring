@@ -89,7 +89,7 @@ func (dec *Decoder) Unmarshal(eom Key, message any) (unknown Key, err error) {
 	}
 	keyToField := make(map[Key]*field)
 
-	for ix := 0; ix < to.NumField(); ix++ {
+	for ix := range to.NumField() {
 		sf := to.Field(ix) // Get StructField
 		if !sf.IsExported() {
 			continue

@@ -93,7 +93,7 @@ func (enc *Encoder) Marshal(eom Key, message any) error {
 	}
 
 	dupes := make(map[Key]string)
-	for ix := 0; ix < to.NumField(); ix++ {
+	for ix := range to.NumField() {
 		sf := to.Field(ix) // Get StructField
 		if !sf.IsExported() {
 			continue
