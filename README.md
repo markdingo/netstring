@@ -65,7 +65,7 @@ rely on positional order or nested netstrings to convey semantics or encapsulate
 To demonstrate the benefits of "keyed" netstrings, say you want to encode Name, Age,
 Country and Height as netstrings to be transmitted to a remote service? With standard
 netstrings you'd have to agree on the positional order for each value, say netstring #0
-for Name, #1 for Age and so on.
+for Name, netstring #1 for Age and so on.
 
 Here is what that series of netstrings looks like:
 
@@ -77,17 +77,17 @@ is to convey a zero length string or a NULL.
 
 With "keyed" netstrings the values can be presented in any order and optional (or NULL)
 values are simply omitted.
-In the above example if we assign the "key" of 'n' to Name, 'a' to Age, 'c' to Country and
+In the above example if we assign the "key" of 'n' to Name, 'a' to Age, 'C' to Country and
 'h' to Height the series of "keyed" netstrings looks like:
 
-    "5:nName,4:aAge,8:cCountry,7:hHeight,"
+    "5:nName,4:aAge,8:CCountry,7:hHeight,"
 
 and if Age is optional the series of netstrings simply becomes:
 
-    "8:cCountry,7:hHeight,5:nName,"
+    "8:CCountry,7:hHeight,5:nName,"
 
-Note the change of order as well as the missing 'a' netstring?
-All perfectly acceptable with "keyed" netstrings.
+Note the change of order as well as the missing 'a' netstring? All perfectly acceptable
+with "keyed" netstrings.
 
 To gain the most benefit from "keyed" netstrings, the usual strategy is to reserve a
 specific key value as an "end-of-message" sentinal which naturally is the last netstring
@@ -128,17 +128,24 @@ This code fragment encodes a message into a bytes.Buffer.
  enc.EncodeInt('a', 21)           // Age
  enc.EncodeString('C', "Iceland") // Country
  enc.EncodeString('n', "Bjorn")   // Name
+ enc.EncodeFloat32('h', 1.73)     // Height
  enc.EncodeBytes('z')             // End-of-message sentinel
- fmt.Println(buf.String())        // "3:a21,8:CIceland,6:nBjorn,1:z,"
+ fmt.Println(buf.String())        // "3:a21,8:CIceland,6:nBjorn,5:h1.73,1:z,"
 ```
 
 And this fragment decodes the same message.
 
 ```
+ var k netstring.Key
+ var v []byte
+ var e error
+
  dec := netstring.NewDecoder(&buf)
  k, v, e := dec.DecodeKeyed() // k=a, v=21
+ _ = k; _ = v; _ = e          // Ensure fragment compiles
  k, v, e = dec.DecodeKeyed()  // k=C, v=Iceland
  k, v, e = dec.DecodeKeyed()  // k=n, v=Bjorn
+ k, v, e = dec.DecodeKeyed()  // k=h, v=1.73
  k, v, e = dec.DecodeKeyed()  // k=z End-Of-Message
 ```
 
@@ -146,14 +153,15 @@ The message is more conveniently encoded with Marshal() as this fragment shows:
 
 ```
  type record struct {
-      Age         int    `netstring:"a"`
-      Country     string `netstring:"c"`
-      Name        string `netstring:"n"`
+      Age         int     `netstring:"a"`
+      Country     string  `netstring:"C"`
+      Name        string  `netstring:"n"`
+      Height      float32 `netstring:"h"`
  }
 
-var buf bytes.Buffer
+ var buf bytes.Buffer
  enc := netstring.NewEncoder(&buf)
- out := &record{21, "Iceland", "Bjorn"}
+ out := &record{21, "Iceland", "Bjorn", 1.73}
  enc.Marshal('z', out)
 ```
 
